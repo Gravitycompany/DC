@@ -1,5 +1,4 @@
--- PAPITA RAYFIELD COMPLETO - "¿ERES DANI?" + PANEL RAYFIELD CON FUNCIONES
--- Pega todo en tu executor (KRNL, Synapse, etc.)
+
 
 -- ======= Servicios y referencias =======
 local Players = game:GetService("Players")
