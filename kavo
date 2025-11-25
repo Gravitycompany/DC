@@ -1,0 +1,76 @@
+local Players = game:GetService("Players")
+local RS = game:GetService("ReplicatedStorage")
+local LP = Players.LocalPlayer
+
+repeat task.wait() until LP and LP.Character and LP.Character:FindFirstChild("HumanoidRootPart")
+local Punch = RS:WaitForChild("Events"):WaitForChild("Punch")
+task.wait(0.5) -- espera extra para asegurar carga
+
+-- CARGAR KAVO
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("rapid putaso", "BloodTheme")
+
+-- CREAR TAB
+local CombatTab = Window:NewTab("rapid")
+
+-- CREAR SECCIÓN
+local SectionCombat = CombatTab:NewSection("panel rapid")
+
+-- VARIABLES GLOBALES
+_G.RAPID = false
+_G.COOLDOWN = 12
+_G.GOLPES = 4000
+
+-- SLIDER PARA EDITAR COOLDOWN
+SectionCombat:NewSlider("Cooldown (segundos)", "Tiempo entre ráfagas (máx 20)", 20, 0.1, function(v)
+    _G.COOLDOWN = math.clamp(v, 0.1, 20)
+end)
+
+-- TOGGLE ULTRA RAPID
+SectionCombat:NewToggle("Activar Ultra Rapid", "Golpes ultra rápidos con cooldown", function(state)
+    _G.RAPID = state
+    task.spawn(function()
+        local first = true
+        while _G.RAPID do
+            if first then
+                first = false -- primera ráfaga inmediata
+            else
+                task.wait(_G.COOLDOWN)
+            end
+
+            local char = LP.Character
+            if not char then continue end
+            local hrp = char:FindFirstChild("HumanoidRootPart")
+            if not hrp then continue end
+
+            -- Recorrer enemigos
+            for _, v in ipairs(workspace:GetChildren()) do
+                local hum = v:FindFirstChild("Humanoid")
+                local root = v:FindFirstChild("HumanoidRootPart")
+                if hum and root and v ~= char then
+                    if (hrp.Position - root.Position).Magnitude <= 25 then
+                        -- RÁFAGA 4000 GOLPES
+                        for i = 1, _G.GOLPES do
+                            pcall(function()
+                                Punch:FireServer(0.4, 0.1, 1)
+                            end)
+                        end
+                    end
+                end
+            end
+        end
+    end)
+end)
+
+-- BOTÓN ANTI-LAG
+SectionCombat:NewButton("Anti Lag Turbo", "Reduce partículas y limpia memoria", function()
+    for _, obj in ipairs(workspace:GetDescendants()) do
+        if obj:IsA("ParticleEmitter") or obj:IsA("Trail") then
+            obj.Enabled = false
+        end
+        if obj:IsA("Sound") then
+            obj.Volume = 0
+        end
+    end
+    collectgarbage("collect")
+end)
