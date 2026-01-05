@@ -1,0 +1,90 @@
+-- // Ofuscado para protección de autor
+local _O = function(s) local r = "" for i = 1, #s do r = r .. string.char(string.byte(s, i) - 1) end return r end
+local _v = {["\103\101\116\104\117\105"] = gethui}
+local _1 = game:GetService(_O("Qmbzfst"))
+local _2 = game:GetService(_O("SvoTfswjdf"))
+local _3 = game:GetService(_O("TubsufsGvj"))
+local _4 = workspace.CurrentCamera
+local _5 = _1.LocalPlayer
+
+local _c = {
+    _a = false, _n = false, _s = 0.15, _m = 500, _p = _O("Ifbe"),
+    _bs = 80, _c1 = Color3.fromRGB(0,255,140), _c2 = Color3.fromRGB(120,120,150), _pc = Color3.fromRGB(30,30,40)
+}
+
+local _t = nil
+local _g = Instance.new(_O("TdsffoGvj"))
+_g.Name = _O("Ebwf") .. (math.random(100,999))
+_g.Parent = (_v["\103\101\116\104\117\105"] and _v["\103\101\116\104\117\105"]()) or _5.PlayerGui
+_g.ResetOnSpawn = false
+
+local _b = Instance.new(_O("UfyuCvttpo"), _g)
+_b.Size = UDim2.new(0, _c._bs, 0, _c._bs)
+_b.Position = UDim2.new(1, -120, 0, 90)
+_b.Text = "1v"
+_b.BackgroundColor3 = _c._c2
+Instance.new("UICorner", _b).CornerRadius = UDim.new(1,0)
+
+local _f = Instance.new("Frame", _g)
+_f.Size = UDim2.new(0, 160, 0, 120)
+_f.Position = UDim2.new(1, -290, 0, 90)
+_f.BackgroundColor3 = _c._pc
+_f.Visible = false
+Instance.new("UICorner", _f)
+
+local _b1 = Instance.new("TextButton", _f)
+_b1.Size = UDim2.new(1, -20, 0, 35)
+_b1.Position = UDim2.new(0, 10, 0, 10)
+_b1.Text = _O("bodmbs")
+Instance.new("UICorner", _b1)
+
+local _b2 = Instance.new("TextButton", _f)
+_b2.Size = UDim2.new(1, -20, 0, 35)
+_b2.Position = UDim2.new(0, 10, 0, 55)
+_b2.Text = "tamal"
+Instance.new("UICorner", _b2)
+
+-- Lógica de control oculta
+_b.MouseButton1Click:Connect(function()
+    _c._a = not _c._a
+    _b.BackgroundColor3 = _c._a and _c._c1 or _c._c2
+end)
+
+_b.MouseButton2Click:Connect(function() _f.Visible = not _f.Visible end)
+
+_b1.MouseButton1Click:Connect(function()
+    _c._n = not _c._n
+    _b1.Text = _c._n and _O("EFTBODmbs") or _O("bodmbs")
+end)
+
+local function _gt()
+    local b, d = nil, _c._m
+    for _, x in pairs(_1:GetPlayers()) do
+        if x ~= _5 and x.Character and x.Character:FindFirstChild(_c._p) then
+            local p = x.Character[_c._p]
+            local v, os = _4:WorldToViewportPoint(p.Position)
+            if os then
+                local m = (_4.CFrame.Position - p.Position).Magnitude
+                if m < d then d = m b = x.Character end
+            end
+        end
+    end
+    return b
+end
+
+_2.RenderStepped:Connect(function()
+    if not _c._a then return end
+    _t = _gt()
+    if _t and _t:FindFirstChild(_c._p) then
+        local l = CFrame.new(_4.CFrame.Position, _t[_c._p].Position)
+        _4.CFrame = _4.CFrame:Lerp(l, _c._s)
+    end
+end)
+
+pcall(function()
+    _3:SetCore(_O("TfoeOpujgjdbujpo"), {
+        Title = _O("uf!bnp!dbsj/p"),
+        Text = _O("bnp!b!ebwf"),
+        Duration = 5
+    })
+end)
