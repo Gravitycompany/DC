@@ -1,90 +1,121 @@
--- // Ofuscado para protección de autor
-local _O = function(s) local r = "" for i = 1, #s do r = r .. string.char(string.byte(s, i) - 1) end return r end
-local _v = {["\103\101\116\104\117\105"] = gethui}
-local _1 = game:GetService(_O("Qmbzfst"))
-local _2 = game:GetService(_O("SvoTfswjdf"))
-local _3 = game:GetService(_O("TubsufsGvj"))
-local _4 = workspace.CurrentCamera
-local _5 = _1.LocalPlayer
+-- // Protected & Optimized for Dave
+local _S = setmetatable({}, {__index = function(_, k) return game:GetService(k) end})
+local _L = _S.Players.LocalPlayer
+local _C = workspace.CurrentCamera
+local _U = _S.UserInputService
 
-local _c = {
-    _a = false, _n = false, _s = 0.15, _m = 500, _p = _O("Ifbe"),
-    _bs = 80, _c1 = Color3.fromRGB(0,255,140), _c2 = Color3.fromRGB(120,120,150), _pc = Color3.fromRGB(30,30,40)
+local _V = {
+    _a = false,
+    _n = false,
+    _s = 0.15,
+    _m = 500,
+    _p = "Head",
+    _sz = 80,
+    _cOn = Color3.fromRGB(0, 255, 140),
+    _cOff = Color3.fromRGB(120, 120, 150),
+    _bg = Color3.fromRGB(30, 30, 40)
 }
 
-local _t = nil
-local _g = Instance.new(_O("TdsffoGvj"))
-_g.Name = _O("Ebwf") .. (math.random(100,999))
-_g.Parent = (_v["\103\101\116\104\117\105"] and _v["\103\101\116\104\117\105"]()) or _5.PlayerGui
-_g.ResetOnSpawn = false
+local _T = nil
 
-local _b = Instance.new(_O("UfyuCvttpo"), _g)
-_b.Size = UDim2.new(0, _c._bs, 0, _c._bs)
-_b.Position = UDim2.new(1, -120, 0, 90)
-_b.Text = "1v"
-_b.BackgroundColor3 = _c._c2
-Instance.new("UICorner", _b).CornerRadius = UDim.new(1,0)
+-- // Interface Construction
+local _G = Instance.new("ScreenGui")
+_G.Name = "Dave_Project_" .. math.random(100, 999)
+_G.Parent = (gethui and gethui()) or _L.PlayerGui
+_G.ResetOnSpawn = false
 
-local _f = Instance.new("Frame", _g)
-_f.Size = UDim2.new(0, 160, 0, 120)
-_f.Position = UDim2.new(1, -290, 0, 90)
-_f.BackgroundColor3 = _c._pc
-_f.Visible = false
-Instance.new("UICorner", _f)
+local _B = Instance.new("TextButton", _G)
+_B.Size = UDim2.new(0, _V._sz, 0, _V._sz)
+_B.Position = UDim2.new(1, -120, 0, 90)
+_B.Text = "1v"
+_B.Font = Enum.Font.GothamBold
+_B.BackgroundColor3 = _V._cOff
+_B.TextColor3 = Color3.new(0,0,0)
+Instance.new("UICorner", _B).CornerRadius = UDim.new(1,0)
 
-local _b1 = Instance.new("TextButton", _f)
-_b1.Size = UDim2.new(1, -20, 0, 35)
-_b1.Position = UDim2.new(0, 10, 0, 10)
-_b1.Text = _O("bodmbs")
-Instance.new("UICorner", _b1)
+local _P = Instance.new("Frame", _G)
+_P.Size = UDim2.new(0, 160, 0, 120)
+_P.Position = UDim2.new(1, -290, 0, 90)
+_P.BackgroundColor3 = _V._bg
+_P.Visible = false
+Instance.new("UICorner", _P).CornerRadius = UDim.new(0,12)
 
-local _b2 = Instance.new("TextButton", _f)
-_b2.Size = UDim2.new(1, -20, 0, 35)
-_b2.Position = UDim2.new(0, 10, 0, 55)
-_b2.Text = "tamal"
-Instance.new("UICorner", _b2)
+local _An = Instance.new("TextButton", _P)
+_An.Size = UDim2.new(1, -20, 0, 35)
+_An.Position = UDim2.new(0, 10, 0, 10)
+_An.Text = "📌 ANCLAR"
+_An.BackgroundColor3 = Color3.fromRGB(80,80,90)
+_An.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", _An)
 
--- Lógica de control oculta
-_b.MouseButton1Click:Connect(function()
-    _c._a = not _c._a
-    _b.BackgroundColor3 = _c._a and _c._c1 or _c._c2
+local _Sz = Instance.new("TextButton", _P)
+_Sz.Size = UDim2.new(1, -20, 0, 35)
+_Sz.Position = UDim2.new(0, 10, 0, 55)
+_Sz.Text = "📏 TAMAÑO"
+_Sz.BackgroundColor3 = Color3.fromRGB(80,80,90)
+_Sz.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", _Sz)
+
+--- // Logic & Dragging
+local drag, start, dPos
+_B.InputBegan:Connect(function(i)
+    if (i.UserInputType == Enum.UserInputType.Touch or i.UserInputType == Enum.UserInputType.MouseButton1) and not _V._n then
+        drag = true; start = i.Position; dPos = _B.Position
+    end
+end)
+_U.InputChanged:Connect(function(i)
+    if drag and (i.UserInputType == Enum.UserInputType.Touch or i.UserInputType == Enum.UserInputType.MouseMovement) then
+        local delta = i.Position - start
+        _B.Position = UDim2.new(dPos.X.Scale, dPos.X.Offset + delta.X, dPos.Y.Scale, dPos.Y.Offset + delta.Y)
+    end
+end)
+_U.InputEnded:Connect(function(i) if i.UserInputType == Enum.UserInputType.Touch or i.UserInputType == Enum.UserInputType.MouseButton1 then drag = false end end)
+
+_B.MouseButton1Click:Connect(function()
+    _V._a = not _V._a
+    _B.BackgroundColor3 = _V._a and _V._cOn or _V._cOff
+end)
+_B.MouseButton2Click:Connect(function() _P.Visible = not _P.Visible end)
+
+_An.MouseButton1Click:Connect(function()
+    _V._n = not _V._n
+    _An.Text = _V._n and "🔓 DESANCLAR" or "📌 ANCLAR"
 end)
 
-_b.MouseButton2Click:Connect(function() _f.Visible = not _f.Visible end)
-
-_b1.MouseButton1Click:Connect(function()
-    _c._n = not _c._n
-    _b1.Text = _c._n and _O("EFTBODmbs") or _O("bodmbs")
+_Sz.MouseButton1Click:Connect(function()
+    _V._sz = _V._sz + 10
+    if _V._sz > 120 then _V._sz = 60 end
+    _B.Size = UDim2.new(0, _V._sz, 0, _V._sz)
 end)
 
-local function _gt()
-    local b, d = nil, _c._m
-    for _, x in pairs(_1:GetPlayers()) do
-        if x ~= _5 and x.Character and x.Character:FindFirstChild(_c._p) then
-            local p = x.Character[_c._p]
-            local v, os = _4:WorldToViewportPoint(p.Position)
-            if os then
-                local m = (_4.CFrame.Position - p.Position).Magnitude
-                if m < d then d = m b = x.Character end
+-- // Aimbot Engine
+local function GetTarget()
+    local b, d = nil, _V._m
+    for _, p in pairs(_S.Players:GetPlayers()) do
+        if p ~= _L and p.Character and p.Character:FindFirstChild(_V._p) then
+            local pos, vis = _C:WorldToViewportPoint(p.Character[_V._p].Position)
+            if vis then
+                local mag = (_C.CFrame.Position - p.Character[_V._p].Position).Magnitude
+                if mag < d then d = mag; b = p.Character end
             end
         end
     end
     return b
 end
 
-_2.RenderStepped:Connect(function()
-    if not _c._a then return end
-    _t = _gt()
-    if _t and _t:FindFirstChild(_c._p) then
-        local l = CFrame.new(_4.CFrame.Position, _t[_c._p].Position)
-        _4.CFrame = _4.CFrame:Lerp(l, _c._s)
+_S.RunService.RenderStepped:Connect(function()
+    if not _V._a then return end
+    _T = GetTarget()
+    if _T and _T:FindFirstChild(_V._p) then
+        local aim = CFrame.new(_C.CFrame.Position, _T[_V._p].Position)
+        _C.CFrame = _C.CFrame:Lerp(aim, _V._s)
     end
 end)
 
 pcall(function()
-    _3:SetCore(_O("TfoeOpujgjdbujpo"), {
-        Title = _O("uf!bnp!dbsj/p"),
-        Text = _O("bnp!b!ebwf"),
+    _S.StarterGui:SetCore("SendNotification", {
+        Title = "te amo",
+        Text = "te amo carinio, amo a dave",
         Duration = 5
     })
 end)
